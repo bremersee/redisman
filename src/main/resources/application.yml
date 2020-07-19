@@ -1,0 +1,109 @@
+bremersee:
+  exception-mapping:
+    api-paths:
+      - /api/**
+    default-exception-mapping-config:
+      include-stack-trace: true
+      include-cause: true
+      include-application-name: true
+      include-exception-class-name: true
+      include-handler: true
+      include-path: true
+  actuator:
+    auth:
+      enable: auto
+      enable-cors: true
+  cors:
+    enable: true
+    allow-all: true
+  auth:
+    role-definitions:
+      admin: &adminRoles
+        - "ROLE_ADMIN"
+        - "ROLE_REDIS_ADMIN"
+    resource-server: auto
+    path-matchers:
+      - ant-pattern: "/v3/**"
+        access-mode: permit_all
+      - ant-pattern: "/webjars/**"
+        access-mode: permit_all
+      - ant-pattern: "/swagger-ui.html"
+        access-mode: permit_all
+      - ant-pattern: "/api/menu"
+        access-mode: permit_all
+      - ant-pattern: "/api/**"
+        roles: *adminRoles
+  redis:
+    embedded: true
+
+eureka:
+  client:
+    enabled: false
+
+spring:
+  #  codec:
+  #    max-in-memory-size: 8MB
+  data:
+    redis:
+      repositories:
+        enabled: false
+  sleuth:
+    enabled: ${SLEUTH_ENABLED:false}
+    sampler:
+      probability: ${SLEUTH_PROBABILITY:1.0}
+  zipkin:
+    enabled: ${ZIPKIN_ENABLED:false}
+    base-url: ${ZIPKIN_BASE_URL:http://localhost:9411/}
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-headers: "*"
+        allowed-methods: "*"
+        allowed-origins: "*"
+        allow-credentials: true
+  endpoint:
+    health:
+      show-details: when_authorized
+  health:
+    redis:
+      enabled: false
+
+server:
+  port: ${SERVER_PORT:8080}
+
+logging:
+  level:
+    ROOT: info
+    com.netflix.eureka.registry: warn
+    com.netflix.discovery.shared.resolver: warn
+    org.springframework.cloud.config.client: warn
+
+---
+
+spring:
+  profiles: in-memory
+
+bremersee:
+  auth:
+    in-memory-users:
+      - name: "admin"
+        password: "admin"
+        authorities:
+          - "ROLE_USER"
+          - "ROLE_ADMIN"
+      - name: "actuator"
+        password: "actuator"
+        authorities:
+          - "ROLE_ACTUATOR"
+          - "ROLE_ACTUATOR_ADMIN"
+      - name: "user"
+        password: "user"
+        authorities:
+          - "ROLE_USER"
