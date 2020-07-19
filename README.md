@@ -1,0 +1,2 @@
+# redisman
+Redis Management Application
