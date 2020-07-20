@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package org.bremersee.redisman;
+package org.bremersee.redisman.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.bremersee.redisman.model.RedisEntry;
+import reactor.core.publisher.Flux;
 
 /**
- * The application.
+ * The redis service interface.
  *
  * @author Christian Bremer
  */
-@SpringBootApplication
-public class Application {
+public interface RedisService {
 
-	/**
-	 * The entry point of application.
-	 *
-	 * @param args the input arguments
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+  /**
+   * Gets entries.
+   *
+   * @param pattern the pattern
+   * @return the entries
+   */
+  Flux<RedisEntry> getEntries(String pattern);
 
 }

@@ -28,6 +28,7 @@
 		<common-model.version>2.1.0-SNAPSHOT</common-model.version>
 		<common-base.version>2.2.0-SNAPSHOT</common-base.version>
 		<comparator.version>2.2.0-SNAPSHOT</comparator.version>
+		<awaitility.version>4.0.3</awaitility.version>
 	</properties>
 
 	<scm>
@@ -170,27 +171,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>${awaitility.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
